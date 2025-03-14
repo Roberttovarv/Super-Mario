@@ -24,3 +24,4 @@ export const createAnimations = (game) => {
         frames: [{key: 'mario', frame: 4}]
     })
 }
+
