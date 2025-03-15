@@ -66,9 +66,9 @@ function create() {
         .create(180, config.height - 40.5, 'immovable-block')
         .refreshBody()
 
-    this.staticBlock
-        .create(360, config.height - 40.5, 'immovable-block')
-        .refreshBody()
+    // this.staticBlock
+    //     .create(360, config.height - 40.5, 'immovable-block')
+    //     .refreshBody()
 
     this.mario = this.physics.add.sprite(50, 200, 'mario')
         .setOrigin(0, 0.4)
