@@ -1,4 +1,10 @@
 {
+    "eslintConfig": {
+        "extends" : "standard"
+    },
     "editor.fontFamily": "Cascadia Code, Consolas, 'Courier New', monospace",
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "devDependencies": {
+        "standard": "^17.1.2"
+    }
 }

@@ -4,18 +4,31 @@ export function gameControls({ mario, keys }) {
     const isTouchingFloor = mario.body.touching.down
 
 
-    const isLeftKEyDown = keys.left.isDown
-    const isUpKEyDown = keys.up.isDown
-    const isRightKEyDown = keys.right.isDown
+    const isLeftKeyDown = keys.left.isDown
+    const isUpKeyDown = keys.up.isDown
+    const isRightKeyDown = keys.right.isDown
+    const isShiftKeyDown = keys.sprint.isDown
 
     if (mario.isDead)  {return}
 
-    if (isLeftKEyDown) {
+    if (isLeftKeyDown) {
+        if (!isTouchingFloor) {
+            mario.setVelocityX(-120)
+            mario.flipX = true
+            moving = true
+            mario.anims.play('mario-jump', true)    
+        }
         isTouchingFloor && mario.anims.play('mario-walk', true)
         mario.setVelocityX(-120)
         mario.flipX = true
         moving = true
-    } else if (isRightKEyDown){
+    } else if (isRightKeyDown){
+        if (!isTouchingFloor) {
+            mario.setVelocityX(120)
+            mario.flipX = false
+            moving = true
+            mario.anims.play('mario-jump', true)    
+        }
         mario.setVelocityX(120)
         isTouchingFloor && mario.anims.play('mario-walk', true)
         mario.flipX = false
@@ -24,7 +37,7 @@ export function gameControls({ mario, keys }) {
         mario.anims.play('mario-idle', true)
     }
 
-    if (isUpKEyDown && isTouchingFloor) {
+    if (isUpKeyDown && isTouchingFloor) {
        mario.setVelocityY(-200)
        mario.anims.play('mario-jump', true)
 
@@ -32,5 +45,18 @@ export function gameControls({ mario, keys }) {
         mario.anims.play('mario-idle', true)
         mario.setVelocityX(0)
 
+    }
+
+    if(isShiftKeyDown) {
+        if(isLeftKeyDown){
+            mario.setVelocityX(-200)
+            moving = true
+            mario.flipX = true
+
+        } else if(isRightKeyDown) {
+            mario.setVelocityX(200)
+            moving = true
+            mario.flipX = false
+        }
     }
 }
