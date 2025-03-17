@@ -2,6 +2,7 @@ import { createAnimations } from "./animations.js"
 import { inGameAudio, playAudio } from "./audio.js"
 import { killMario } from "./behavior.js"
 import { gameControls } from "./controls.js"
+import { loadSpriteSheets } from "./spritesheets.js"
 
 /* global Phaser */
 const config = {
@@ -42,7 +43,7 @@ function preload() {
         'assets/blocks/overworld/immovableBlock.png'
     )
 
-
+    loadSpriteSheets(this)
 
     inGameAudio(this)
 }

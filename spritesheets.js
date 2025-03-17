@@ -18,7 +18,7 @@ const SPRITES_BD = [
 
 export const loadSpriteSheets = ({ load }) => {
     SPRITES_BD.forEach(({ key, path, frameWidth, frameHeight}) => {
-        load.spriteSheet(key, path, { frameWidth, frameHeight })
+        load.spritesheet(key, path, { frameWidth, frameHeight })
     })
 
 }
