@@ -12,7 +12,9 @@ const SPRITES_BD = [
     },
     {
         key: 'coin',
-        path: 'assets/collectibles/coin.png'
+        path: 'assets/collectibles/coin.png',
+        frameWidth: 16, 
+        frameHeight: 16 
     }
 ]
 

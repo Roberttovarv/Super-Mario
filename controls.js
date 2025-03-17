@@ -52,11 +52,14 @@ export function gameControls({ mario, keys }) {
             mario.setVelocityX(-200)
             moving = true
             mario.flipX = true
+            mario.frameRate = 26
 
         } else if(isRightKeyDown) {
             mario.setVelocityX(200)
             moving = true
             mario.flipX = false
+            mario.frameRate = 26
+
         }
     }
 }

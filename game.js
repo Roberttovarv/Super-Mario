@@ -15,7 +15,7 @@ const config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 300 },
-            debug: true
+            // debug: true
         }
     },
     scene: {
@@ -49,6 +49,8 @@ function preload() {
 }
 
 function create() {
+    createAnimations(this)
+
     this.add.image(0, 0, 'cloud1')
         .setOrigin(0, 0)
         .setScale(0.15)
@@ -91,6 +93,10 @@ function create() {
         .setOrigin(0, 0.5)
         .refreshBody()
 
+    this.coins = this.physics.add.staticGroup()
+    this.coins.create(150, 150, 'coin').anims.play('coin-spin', true)
+
+
     this.physics.add.collider(this.mario, this.floor)
     this.physics.add.collider(this.goomba, this.floor)
 
@@ -102,6 +108,8 @@ function create() {
         }
     });
 
+    this.physics.add.overlap(this.mario, this.coins, collectCoin, null, this)
+
     this.physics.add.collider(this.mario, this.goomba, isTouchingEnemy, null, this)
  
 
@@ -111,7 +119,6 @@ function create() {
     this.cameras.main.setBounds(0, 0, 2000, config.height)
     this.cameras.main.startFollow(this.mario)
 
-    createAnimations(this)
     
     this.goomba.anims.play('goomba-walk', true)
 
@@ -142,6 +149,29 @@ function create() {
             }, 500)
         }
     };
+
+    function collectCoin(mario, coin) {
+        if (coin.isCollected) return
+        
+        coin.isCollected = true
+        playAudio('coin-collect', this, { volume: 0.1 })
+
+        this.add.text(
+            coin.x,
+            coin.y,
+            100,
+            {
+                fontFamily: 'SMF',
+                fontSize: config.width / 25
+            }
+        )
+
+        setTimeout(() => {
+            coin.destroy()
+             coin.isCollected = false
+        }, 200)
+        
+    }
     }
 
 

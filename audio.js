@@ -6,6 +6,10 @@ const AUDIO_DB = [
 {
     key: 'goomba-kill',
     path: 'assets/sound/effects/goomba-stomp.wav'
+},
+{
+    key: 'coin-collect',
+    path: 'assets/sound/effects/coin.mp3'
 }
 ]
 
