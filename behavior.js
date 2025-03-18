@@ -1,6 +1,7 @@
 import { playAudio } from "./audio.js"
 
 export const killMario = (scene, { mario }) => {
+    
     mario.isDead = true
     mario.anims.play('mario-dead', true)
     playAudio('gameover', scene, {volume: 0.2})

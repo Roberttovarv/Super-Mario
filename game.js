@@ -2,6 +2,7 @@ import { createAnimations } from "./animations.js"
 import { inGameAudio, playAudio } from "./audio.js"
 import { killMario } from "./behavior.js"
 import { gameControls } from "./controls.js"
+import { loadImage } from "./images.js"
 import { loadSpriteSheets } from "./spritesheets.js"
 
 /* global Phaser */
@@ -28,20 +29,8 @@ const config = {
 new Phaser.Game(config)
 
 function preload() {
-    this.load.image(
-        'cloud1',
-        'assets/scenery/overworld/cloud1.png'
-    )
 
-    this.load.image(
-        'floorbricks',
-        'assets/scenery/overworld/floorbricks.png'
-    )
-
-    this.load.image(
-        'immovable-block',
-        'assets/blocks/overworld/immovableBlock.png'
-    )
+    loadImage(this)
 
     loadSpriteSheets(this)
 
@@ -93,9 +82,10 @@ function create() {
         .setOrigin(0, 0.5)
         .refreshBody()
 
-    this.collectables = this.physics.add.staticGroup()
-    this.collectables.create(150, 180, 'coin').anims.play('coin-spin', true)
-    this.collectables.create(330, 180, 'coin').anims.play('coin-spin', true)
+    this.collectibles = this.physics.add.staticGroup()
+    this.collectibles.create(150, 180, 'coin').anims.play('coin-spin', true)
+    this.collectibles.create(330, 180, 'coin').anims.play('coin-spin', true)
+    this.collectibles.create(180, 180, 'mushroom')
 
 
     this.physics.add.collider(this.mario, this.floor)
@@ -109,13 +99,13 @@ function create() {
         }
     });
 
-    this.physics.add.overlap(this.mario, this.collectables, collectItem, null, this)
+    this.physics.add.overlap(this.mario, this.collectibles, collectItem, null, this)
 
     this.physics.add.collider(this.mario, this.goomba, isTouchingEnemy, null, this)
 
 
     this.physics.add.collider(this.mario, this.staticBlock)
-    this.physics.world.setBounds(0, 0, 2000, config.height)
+    this.physics.world.setBounds(0, 0, 2000, config.height + 40)
 
     this.cameras.main.setBounds(0, 0, 2000, config.height)
     this.cameras.main.startFollow(this.mario)
@@ -135,10 +125,6 @@ function create() {
     function isTouchingEnemy(mario, enemy) {
         if (mario.isDead) return
 
-        if (enemy.body.touching.left && mario.body.touching.right || enemy.body.touching.right && mario.body.touching.left) {
-            killMario(this, { mario: this.mario })
-
-        }
         if (enemy.body.touching.up && mario.body.touching.down) {
             enemy.anims.play('goomba-dead', true)
             playAudio('goomba-kill', this)
@@ -150,18 +136,88 @@ function create() {
                 enemy.destroy()
             }, 500)
             addScore(200, enemy, this)
+
+            return;
+        }
+
+        if (mario.isGrown) {
+
+            playAudio('powerdown', this, { volume: 0.2 })
+            this.physics.world.pause()
+            this.anims.pauseAll()
+            mario.isBlocked = true
+
+            let i = 0
+            const interval = setInterval(() => {
+                mario.anims.play(i % 2 === 0
+                    ? 'mario-grown-idle'
+                    : 'mario-idle'
+                )
+                i++
+            }, 100)
+
+
+            setTimeout(() => {
+                mario.setDisplaySize(18, 16)
+                mario.body.setSize(18, 16)
+                mario.isGrown = false
+                mario.isBlocked = false
+                clearInterval(interval)
+                this.physics.world.resume()
+                this.anims.resumeAll()
+            }, 1000)
+        }
+
+        if (enemy.body.touching.left
+            && mario.body.touching.right
+            && !mario.isBlocked
+            || enemy.body.touching.right
+            && mario.body.touching.left
+            && !mario.isBlocked) {
+            killMario(this, { mario: this.mario })
+
         }
     };
 
     function collectItem(mario, item) {
-        if (item.isCollected) return
 
-        if (item.texture.key === 'coin') {
+        const { texture: { key } } = item
+        if (item.isCollected) return
+        item.destroy()
+
+        if (key === 'coin') {
 
             item.isCollected = true
             playAudio('coin-collect', this, { volume: 0.1 })
-            item.destroy()
             addScore(100, item, this)
+        }
+
+        if (key === 'mushroom') {
+            playAudio('powerup', this, { volume: 0.2 })
+            this.physics.world.pause()
+            this.anims.pauseAll()
+            mario.isBlocked = true
+
+            let i = 0
+            const interval = setInterval(() => {
+                mario.anims.play(i % 2 === 0
+                    ? 'mario-grown-idle'
+                    : 'mario-idle'
+                )
+                i++
+            }, 100)
+
+            setTimeout(() => {
+
+                mario.setDisplaySize(18, 32)
+                mario.body.setSize(18, 32)
+                mario.isGrown = true
+                mario.isBlocked = false
+                clearInterval(interval)
+                this.physics.world.resume()
+                this.anims.resumeAll()
+            }, 1000)
+
         }
     }
 }
@@ -200,7 +256,13 @@ function update() {
 
     const { mario, sound, scene, goomba } = this
 
-    if (mario.y >= config.height - 10 && !mario.isDead) {
+    if (mario.y >= config.height && !mario.isDead) {
         killMario(this, { mario: mario })
     }
 }
+
+
+
+
+
+
