@@ -58,6 +58,8 @@ function create() {
         .setOrigin(0, 0.4)
         .setCollideWorldBounds(true)
         .setGravityY(300)
+        .setSize(16, 18) // Ajusta el tamaño del cuerpo de Mario
+        .setOffset(0, 0)
     this.mario.setDepth(1)
 
 
@@ -160,6 +162,7 @@ function create() {
             setTimeout(() => {
                 mario.setDisplaySize(18, 16)
                 mario.body.setSize(18, 16)
+                mario.setScale(1)
                 mario.isGrown = false
                 mario.isBlocked = false
                 clearInterval(interval)
@@ -197,7 +200,7 @@ function create() {
             this.physics.world.pause()
             this.anims.pauseAll()
             mario.isBlocked = true
-
+            
             let i = 0
             const interval = setInterval(() => {
                 mario.anims.play(i % 2 === 0
@@ -206,11 +209,12 @@ function create() {
                 )
                 i++
             }, 100)
-
+            
             setTimeout(() => {
-
                 mario.setDisplaySize(18, 32)
                 mario.body.setSize(18, 32)
+                mario.setScale(1)
+                mario.setOffset(0, 0)
                 mario.isGrown = true
                 mario.isBlocked = false
                 clearInterval(interval)
