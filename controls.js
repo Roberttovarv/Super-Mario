@@ -3,6 +3,7 @@ export function gameControls({ mario, keys }) {
 
     const isTouchingFloor = mario.body.touching.down
 
+    const isJumpPressed = Phaser.Input.Keyboard.JustDown(keys.up)
 
     const isLeftKeyDown = keys.left.isDown
     const isUpKeyDown = keys.up.isDown
@@ -37,7 +38,7 @@ export function gameControls({ mario, keys }) {
         mario.anims.play('mario-idle', true)
     }
 
-    if (isUpKeyDown && isTouchingFloor) {
+    if (isJumpPressed && isTouchingFloor) {
        mario.setVelocityY(-200)
        mario.anims.play('mario-jump', true)
 
@@ -52,13 +53,11 @@ export function gameControls({ mario, keys }) {
             mario.setVelocityX(-200)
             moving = true
             mario.flipX = true
-            mario.frameRate = 26
 
         } else if(isRightKeyDown) {
             mario.setVelocityX(200)
             moving = true
             mario.flipX = false
-            mario.frameRate = 26
 
         }
     }

@@ -77,7 +77,7 @@ function create() {
     this.goomba = this.physics.add.sprite(250, config.height - 64, 'goomba')
         .setOrigin(0, 1)
         .setVelocityX(-50)
-        
+
     this.floor
         .create(0, config.height - 16, 'floorbricks')
         .setOrigin(0, 0.5)
@@ -93,8 +93,9 @@ function create() {
         .setOrigin(0, 0.5)
         .refreshBody()
 
-    this.coins = this.physics.add.staticGroup()
-    this.coins.create(150, 150, 'coin').anims.play('coin-spin', true)
+    this.collectables = this.physics.add.staticGroup()
+    this.collectables.create(150, 180, 'coin').anims.play('coin-spin', true)
+    this.collectables.create(330, 180, 'coin').anims.play('coin-spin', true)
 
 
     this.physics.add.collider(this.mario, this.floor)
@@ -104,14 +105,14 @@ function create() {
         if (goomba.x < block.x) {
             goomba.setVelocityX(-50);
         } else {
-            goomba.setVelocityX(50); 
+            goomba.setVelocityX(50);
         }
     });
 
-    this.physics.add.overlap(this.mario, this.coins, collectCoin, null, this)
+    this.physics.add.overlap(this.mario, this.collectables, collectItem, null, this)
 
     this.physics.add.collider(this.mario, this.goomba, isTouchingEnemy, null, this)
- 
+
 
     this.physics.add.collider(this.mario, this.staticBlock)
     this.physics.world.setBounds(0, 0, 2000, config.height)
@@ -119,7 +120,7 @@ function create() {
     this.cameras.main.setBounds(0, 0, 2000, config.height)
     this.cameras.main.startFollow(this.mario)
 
-    
+
     this.goomba.anims.play('goomba-walk', true)
 
 
@@ -132,47 +133,66 @@ function create() {
     })
 
     function isTouchingEnemy(mario, enemy) {
-        if (mario.isDead) return 
+        if (mario.isDead) return
 
         if (enemy.body.touching.left && mario.body.touching.right || enemy.body.touching.right && mario.body.touching.left) {
             killMario(this, { mario: this.mario })
-   
+
         }
         if (enemy.body.touching.up && mario.body.touching.down) {
             enemy.anims.play('goomba-dead', true)
             playAudio('goomba-kill', this)
             mario.setVelocityY(-150)
             enemy.setVelocityX(0)
+            enemy.disableBody(true, false)
 
             setTimeout(() => {
                 enemy.destroy()
             }, 500)
+            addScore(200, enemy, this)
         }
     };
 
-    function collectCoin(mario, coin) {
-        if (coin.isCollected) return
-        
-        coin.isCollected = true
-        playAudio('coin-collect', this, { volume: 0.1 })
+    function collectItem(mario, item) {
+        if (item.isCollected) return
 
-        this.add.text(
-            coin.x,
-            coin.y,
-            100,
-            {
-                fontFamily: 'SMF',
-                fontSize: config.width / 25
-            }
-        )
+        if (item.texture.key === 'coin') {
 
-        setTimeout(() => {
-            coin.destroy()
-             coin.isCollected = false
-        }, 200)
-        
+            item.isCollected = true
+            playAudio('coin-collect', this, { volume: 0.1 })
+            item.destroy()
+            addScore(100, item, this)
+        }
     }
-    }
+}
+
+function addScore(score, origin, game) {
+    const scoreText = game.add.text(
+        origin.getBounds().x,
+        origin.getBounds().y,
+        score,
+        {
+            fontFamily: 'SMF',
+            fontSize: config.width / 25
+        }
+    )
+
+    game.tweens.add({
+        targets: scoreText,
+        duration: 500,
+        y: scoreText.y - 20,
+        onComplete: () => {
+            game.tweens.add({
+                targets: scoreText,
+                duration: 100,
+                alpha: 0,
+                onComplete: () => {
+                    scoreText.destroy()
+                }
+            })
+        }
+    })
+}
 
 
 function update() {
