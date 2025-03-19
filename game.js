@@ -3,6 +3,7 @@ import { inGameAudio, playAudio } from "./audio.js"
 import { killMario } from "./behavior.js"
 import { gameControls } from "./controls.js"
 import { loadImage } from "./images.js"
+import { loadMap } from "./map.js"
 import { loadSpriteSheets } from "./spritesheets.js"
 
 /* global Phaser */
@@ -44,45 +45,22 @@ function create() {
         .setOrigin(0, 0)
         .setScale(0.15)
 
-    this.staticBlock = this.physics.add.staticGroup()
-
-    this.staticBlock
-        .create(180, config.height - 40.5, 'immovable-block')
-        .refreshBody()
-
-    this.staticBlock
-        .create(360, config.height - 40.5, 'immovable-block')
-        .refreshBody()
-
     this.mario = this.physics.add.sprite(50, 200, 'mario')
         .setOrigin(0, 0.4)
         .setCollideWorldBounds(true)
         .setGravityY(300)
-        .setSize(16, 18) // Ajusta el tamaño del cuerpo de Mario
+        .setSize(16, 18) 
         .setOffset(0, 0)
     this.mario.setDepth(1)
 
-
-    this.floor = this.physics.add.staticGroup()
-
     this.goomba = this.physics.add.sprite(250, config.height - 64, 'goomba')
-        .setOrigin(0, 1)
-        .setVelocityX(-50)
+    .setOrigin(0, 1)
+    .setVelocityX(-50)
 
-    this.floor
-        .create(0, config.height - 16, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
 
-    this.floor
-        .create(150, config.height - 16, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
 
-    this.floor
-        .create(278, config.height - 16, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
+    loadMap(this)
+    
 
     this.collectibles = this.physics.add.staticGroup()
     this.collectibles.create(150, 180, 'coin').anims.play('coin-spin', true)
@@ -163,6 +141,7 @@ function create() {
                 mario.setDisplaySize(18, 16)
                 mario.body.setSize(18, 16)
                 mario.setScale(1)
+                mario.setOffset(0, 0)
                 mario.isGrown = false
                 mario.isBlocked = false
                 clearInterval(interval)

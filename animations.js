@@ -5,7 +5,7 @@ export const createAnimations = (game) => {
             'mario',
             { start: 1, end: 3 }
         ),
-        frameRate: 10,
+        frameRate: 12,
         repeat: -1
     })
 
@@ -15,7 +15,7 @@ export const createAnimations = (game) => {
             'mario-grown',
             { start: 1, end: 3 }
         ),
-        frameRate: 10,
+        frameRate: 18,
         repeat: -1
     })
 
