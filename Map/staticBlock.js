@@ -12,20 +12,26 @@ export const loadStaticBlock = (scene) => {
     scene.staticBlock
         .create(590, 187, 'immovable-block')
         .refreshBody();
-    
-    scene.staticBlock
-        .create(625, 171, 'immovable-block')
-        .refreshBody()
 
+    for (let i = 0; i < 3; i++) {
         scene.staticBlock
-        .create(660, 155, 'immovable-block')
-        .refreshBody()
+            .create(590 + (i * 35), 187 - (i * 16), 'immovable-block')
+            .refreshBody();
+    }
 
-        for (let i = 0; i < 10; i ++){
-            scene.staticBlock
-            .create(660 +(i * 16) , 155, 'immovable-block')
+    for (let i = 0; i < 3; i++) {
+        scene.staticBlock
+            .create(890 + (i * 35), 155 + (i * 16), 'immovable-block')
+            .refreshBody();
+    }
+
+    for (let i = 0; i < 11; i++) {
+        scene.staticBlock
+            .create(695 + (i * 16), 139, 'immovable-block')
             .refreshBody()
-        }
-    
-        
+    }
+
+
+
+
 }

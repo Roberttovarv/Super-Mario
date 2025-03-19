@@ -57,7 +57,35 @@ function create() {
     .setOrigin(0, 1)
     .setVelocityX(-50)
 
+    this.misteryBlock = this.physics.add.sprite(250, config.height - 84, 'mistery-block')
+    .setOrigin(0, 1)
+    .setImmovable(true)
+    .setGravityY(0)
+    this.misteryBlock.body.allowGravity = false;
 
+    
+    this.misteryBlock.anims.play('mistery-block-switch', true)
+
+    this.physics.add.collider(this.mario, this.misteryBlock, (mario, misteryBlock) => {
+        if (misteryBlock.body.touching.down && mario.body.touching.up) {
+            this.tweens.add({
+                targets: misteryBlock,
+                duration: 20,
+                y: misteryBlock.y - 10,
+                onComplete: () => {
+                    misteryBlock.anims.play('empty-mistery-block', true)
+                    this.tweens.add({
+                        targets: misteryBlock,
+                        duration: 50,
+                        y: misteryBlock.y + 10,
+
+                    })
+                }
+            })
+        }
+    })
+
+    
 
     loadMap(this)
     

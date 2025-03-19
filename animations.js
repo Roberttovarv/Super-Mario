@@ -74,5 +74,22 @@ export const createAnimations = (game) => {
         repeat: -1
 
     })
+
+    game.anims.create({
+        key: 'mistery-block-switch',
+        'frames': game.anims.generateFrameNumbers(
+            'mistery-block',
+            { start: 0, end: 2 }),
+            frameRate: 10,
+            repeat: -1
+    })
+
+    game.anims.create({
+        key: 'empty-mistery-block',
+        'frames': [{key: 'empty-block', frame: 0}],
+            frameRate: 10,
+            repeat: -1
+    })
+    
 }
 

@@ -21,8 +21,16 @@ export function gameControls({ mario, keys }) {
     const isJumpPressed = Phaser.Input.Keyboard.JustDown(keys.up)
     const isLeftKeyDown = keys.left.isDown
     const isDownKeyDown = keys.down.isDown
+    const isUpKeyDown = keys.up.isDown
     const isRightKeyDown = keys.right.isDown
     const isShiftKeyDown = keys.sprint.isDown
+
+    const isNotJumpPressed = !Phaser.Input.Keyboard.JustDown(keys.up)
+    const isNotLeftKeyDown = !keys.left.isDown
+    const isNotDownKeyDown = !keys.down.isDown
+    const isNotUpKeyDown = !keys.up.isDown
+    const isNotRightKeyDown = !keys.right.isDown
+    const isNotShiftKeyDown = !keys.sprint.isDown
 
     if (mario.isDead) return
     if (mario.isBlocked) return
@@ -32,44 +40,47 @@ export function gameControls({ mario, keys }) {
             mario.setVelocityX(-120)
             mario.flipX = true
             moving = true
-            mario.anims.play(marioAnims.jump, true)    
+            mario.anims.play(marioAnims.jump, true)
         }
         isTouchingFloor && mario.anims.play(marioAnims.walk, true)
         mario.setVelocityX(-120)
         mario.flipX = true
         moving = true
-    } else if (isRightKeyDown){
+    } else if (isRightKeyDown) {
         if (!isTouchingFloor) {
             mario.setVelocityX(120)
             mario.flipX = false
             moving = true
-            mario.anims.play(marioAnims.jump, true)    
+            mario.anims.play(marioAnims.jump, true)
         }
         mario.setVelocityX(120)
         isTouchingFloor && mario.anims.play(marioAnims.walk, true)
         mario.flipX = false
-        moving = true  
+        moving = true
     } else if (isTouchingFloor) {
         mario.anims.play(marioAnims.idle, true)
     }
 
     if (isJumpPressed && isTouchingFloor) {
-       mario.setVelocityY(-200)
-       mario.anims.play(marioAnims.jump, true)
-
-    } else if (!moving) {
+        mario.setVelocityY(-200)
+        mario.anims.play(marioAnims.jump, true)
+    }
+    if (!isTouchingFloor) {
+        mario.anims.play(marioAnims.jump, true)
+    }
+    else if (!moving) {
         mario.anims.play(marioAnims.idle, true)
         mario.setVelocityX(0)
 
     }
 
     if (isShiftKeyDown) {
-        if(isLeftKeyDown){
+        if (isLeftKeyDown) {
             mario.setVelocityX(-200)
             moving = true
             mario.flipX = true
 
-        } else if(isRightKeyDown) {
+        } else if (isRightKeyDown) {
             mario.setVelocityX(200)
             moving = true
             mario.flipX = false
@@ -79,6 +90,24 @@ export function gameControls({ mario, keys }) {
 
     if (isDownKeyDown) {
         if (mario.isGrown) {
-        mario.anims.play(marioAnims.crouch, true)
-    }}
+            mario.anims.play(marioAnims.crouch, true)
+        }
+    }
+
+    // if ( 
+    //     isNotLeftKeyDown
+    //     && isNotDownKeyDown
+    //     && isNotRightKeyDown
+    //     && isNotShiftKeyDown
+    // ) {
+    //     mario.setVelocityX(0)
+    // }
+
+    // if (
+    //     isNotJumpPressed
+    //     && isNotUpKeyDown
+    // ) {
+    //     mario.setVelocityX(0)
+    // }
+    
 }

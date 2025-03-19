@@ -21,6 +21,17 @@ const SPRITES_DB = [
         path: 'assets/entities/mario-grown.png',
         frameWidth: 18,
         frameHeight: 32
+    },    {
+        key: 'mistery-block',
+        path: 'assets/blocks/overworld/misteryBlock.png',
+        frameWidth: 16,
+        frameHeight: 16
+    },
+    {
+        key: 'empty-block',
+        path: 'assets/blocks/overworld/emptyBlock.png',
+        frameWidth: 16,
+        frameHeight: 16
     }
 ]
 
