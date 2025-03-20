@@ -36,9 +36,15 @@ function preload() {
     loadSpriteSheets(this)
 
     inGameAudio(this)
+
+    this.load.on('complete', () => {
+        createAnimations(this);
+    });
+
 }
 
 function create() {
+    loadMap(this)
     createAnimations(this)
 
     this.add.image(0, 0, 'cloud1')
@@ -49,29 +55,48 @@ function create() {
         .setOrigin(0, 0.4)
         .setCollideWorldBounds(true)
         .setGravityY(300)
-        .setSize(16, 18) 
+        .setSize(16, 18)
         .setOffset(0, 0)
     this.mario.setDepth(1)
 
-    this.goomba = this.physics.add.sprite(250, config.height - 64, 'goomba')
-    .setOrigin(0, 1)
-    .setVelocityX(-50)
+    this.goomba = this.physics.add.sprite(250, 180, 'goomba')
+        .setOrigin(0, 1)
+        .setVelocityX(-50)
 
-    this.misteryBlock = this.physics.add.sprite(250, config.height - 84, 'mistery-block')
-    .setOrigin(0, 1)
-    .setImmovable(true)
-    .setGravityY(0)
+    this.misteryBlock = this.physics.add.sprite(250, 165, 'mistery-block')
+        .setOrigin(0, 1)
+        .setImmovable(true)
     this.misteryBlock.body.allowGravity = false;
 
-    
+
+
     this.misteryBlock.anims.play('mistery-block-switch', true)
 
     this.physics.add.collider(this.mario, this.misteryBlock, (mario, misteryBlock) => {
         if (misteryBlock.body.touching.down && mario.body.touching.up) {
+            if (misteryBlock.isCollected) return
+
+            misteryBlock.setDepth(1)
+            misteryBlock.isCollected = true
+
+            const mushroom = this.collectibles.create(258, 165, 'mushroom')
+            mushroom.body.enable = false
+            mushroom.alpha = 0
+            this.tweens.add({
+                targets: mushroom,
+                duration: 500,
+                y: mushroom.y - 30,
+                alpha: 1,
+                onComplete: () => {
+                    mushroom.body.enable = true
+                    { !mario.flipX ? mushroom.setVelocityX(-60) : mushroom.setVelocityX(60) }
+                }
+            })
             this.tweens.add({
                 targets: misteryBlock,
                 duration: 20,
                 y: misteryBlock.y - 10,
+
                 onComplete: () => {
                     misteryBlock.anims.play('empty-mistery-block', true)
                     this.tweens.add({
@@ -85,19 +110,21 @@ function create() {
         }
     })
 
-    
+    this.collectibles = this.physics.add.group()
 
-    loadMap(this)
-    
-
-    this.collectibles = this.physics.add.staticGroup()
-    this.collectibles.create(150, 180, 'coin').anims.play('coin-spin', true)
-    this.collectibles.create(330, 180, 'coin').anims.play('coin-spin', true)
-    this.collectibles.create(180, 180, 'mushroom')
 
 
     this.physics.add.collider(this.mario, this.floor)
     this.physics.add.collider(this.goomba, this.floor)
+    this.physics.add.collider(this.collectibles, this.floor)
+    this.physics.add.collider(this.collectibles, this.staticBlock, (collectible, block) => {
+        if (collectible.x < block.x) {
+            collectible.setVelocityX(-50);
+        } else {
+            collectible.setVelocityX(50);
+        }
+    })
+
 
     this.physics.add.collider(this.goomba, this.staticBlock, (goomba, block) => {
         if (goomba.x < block.x) {
@@ -107,15 +134,16 @@ function create() {
         }
     });
 
+    this.physics.add.overlap(this.mario, this.staticCollectibles, collectItem, null, this)
     this.physics.add.overlap(this.mario, this.collectibles, collectItem, null, this)
 
     this.physics.add.collider(this.mario, this.goomba, isTouchingEnemy, null, this)
 
 
     this.physics.add.collider(this.mario, this.staticBlock)
-    this.physics.world.setBounds(0, 0, 2000, config.height + 40)
+    this.physics.world.setBounds(0, 0, 2000, 284)
 
-    this.cameras.main.setBounds(0, 0, 2000, config.height)
+    this.cameras.main.setBounds(0, 0, 2000, 244)
     this.cameras.main.startFollow(this.mario)
 
 
@@ -204,10 +232,11 @@ function create() {
 
         if (key === 'mushroom') {
             playAudio('powerup', this, { volume: 0.2 })
+            mario.y -= 10
             this.physics.world.pause()
             this.anims.pauseAll()
             mario.isBlocked = true
-            
+
             let i = 0
             const interval = setInterval(() => {
                 mario.anims.play(i % 2 === 0
@@ -216,7 +245,7 @@ function create() {
                 )
                 i++
             }, 100)
-            
+
             setTimeout(() => {
                 mario.setDisplaySize(18, 32)
                 mario.body.setSize(18, 32)
@@ -267,7 +296,7 @@ function update() {
 
     const { mario, sound, scene, goomba } = this
 
-    if (mario.y >= config.height && !mario.isDead) {
+    if (mario.y >= 244 && !mario.isDead) {
         killMario(this, { mario: mario })
     }
 }

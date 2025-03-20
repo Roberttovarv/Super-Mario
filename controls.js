@@ -21,16 +21,8 @@ export function gameControls({ mario, keys }) {
     const isJumpPressed = Phaser.Input.Keyboard.JustDown(keys.up)
     const isLeftKeyDown = keys.left.isDown
     const isDownKeyDown = keys.down.isDown
-    const isUpKeyDown = keys.up.isDown
     const isRightKeyDown = keys.right.isDown
     const isShiftKeyDown = keys.sprint.isDown
-
-    const isNotJumpPressed = !Phaser.Input.Keyboard.JustDown(keys.up)
-    const isNotLeftKeyDown = !keys.left.isDown
-    const isNotDownKeyDown = !keys.down.isDown
-    const isNotUpKeyDown = !keys.up.isDown
-    const isNotRightKeyDown = !keys.right.isDown
-    const isNotShiftKeyDown = !keys.sprint.isDown
 
     if (mario.isDead) return
     if (mario.isBlocked) return
