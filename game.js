@@ -232,7 +232,7 @@ function create() {
 
         if (key === 'mushroom') {
             playAudio('powerup', this, { volume: 0.2 })
-            mario.y -= 10
+            mario.y -= 8
             this.physics.world.pause()
             this.anims.pauseAll()
             mario.isBlocked = true

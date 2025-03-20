@@ -6,73 +6,33 @@ export const loadFloor = (scene) => {
         .setOrigin(0, 0.5)
         .refreshBody()
 
-    scene.floor
-        .create(150, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
+        for (let i = 0; i < 2; i++) {
+            scene.floor
+            .create(150 + (i * 128), 228, 'floorbricks')
+            .setOrigin(0, 0.5)
+            .refreshBody()
+        }
 
-    scene.floor
-        .create(278, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
+        for (let i = 0; i < 2; i++) {
+            scene.floor
+            .create(458 + (i * 128), 228, 'floorbricks')
+            .setOrigin(0, 0.5)
+            .refreshBody()
+        }
 
-    scene.floor
-        .create(458, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
 
-    scene.floor
-        .create(586, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
 
-    scene.floor
-        .create(828, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(956, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(1084, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(1212, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
+        for (let i = 0; i < 4; i++) {
+            scene.floor
+            .create(828 + (i * 128), 228, 'floorbricks')
+            .setOrigin(0, 0.5)
+            .refreshBody()
+        }
     
-    scene.floor
-        .create(1400, 228, 'floorbricks')
+   for (let i = 0; i < 5; i++) {
+        scene.floor
+        .create(1450 + (i * 128), 228, 'floorbricks')
         .setOrigin(0, 0.5)
         .refreshBody()
-
-    scene.floor
-        .create(1528, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-    
-    scene.floor
-        .create(1656, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(1784, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(1912, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
-
-    scene.floor
-        .create(2030, 228, 'floorbricks')
-        .setOrigin(0, 0.5)
-        .refreshBody()
+    }
 }
