@@ -12,6 +12,10 @@ const IMAGE_DB = [
         path: 'assets/scenery/overworld/cloud1.png'
     },
     {
+        key: 'cloud2',
+        path: 'assets/scenery/overworld/cloud2.png'
+    },
+    {
         key: 'mushroom',
         path: 'assets/collectibles/super-mushroom.png'
     }

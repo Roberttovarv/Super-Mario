@@ -47,9 +47,9 @@ function create() {
     loadMap(this)
     createAnimations(this)
 
-    this.add.image(0, 0, 'cloud1')
-        .setOrigin(0, 0)
-        .setScale(0.15)
+    // this.add.image(0, 0, 'cloud1')
+    //     .setOrigin(0, 0)
+    //     .setScale(0.15)
 
     this.mario = this.physics.add.sprite(50, 200, 'mario')
         .setOrigin(0, 0.4)
