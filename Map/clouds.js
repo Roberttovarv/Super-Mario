@@ -6,7 +6,7 @@ function getRamdomInt(min, max) {
 
 export const loadClouds = (scene) => {
 
-    for (let i = 0; i < 10; i++) { 
+    for (let i = 0; i < 15; i++) { 
 
         if (i == 0) { i = Math.random(0.1, 0.9)}
 
@@ -14,10 +14,8 @@ export const loadClouds = (scene) => {
         getRamdomInt(10, 50), 'cloud1')
         .setOrigin(0, 0)
         .setScale(0.15)
-}
-    
-    for (let i = 0; i < 10; i++) { 
-        
+
+
         if (i == 0) { i = Math.random(0.1, 0.9)}
 
         scene.add.image(i * (50 + (getRamdomInt(150, 250))), 
