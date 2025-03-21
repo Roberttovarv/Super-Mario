@@ -18,7 +18,23 @@ const IMAGE_DB = [
     {
         key: 'mushroom',
         path: 'assets/collectibles/super-mushroom.png'
-    }
+    },
+    {
+        key: 'bush1',
+        path: 'assets/scenery/overworld/bush1.png'
+    },
+    {
+        key: 'bush2',
+        path: 'assets/scenery/overworld/bush2.png'
+    },
+    {
+        key: 'mountain1',
+        path: 'assets/scenery/overworld/mountain1.png'
+    },
+    {
+        key: 'mountain2',
+        path: 'assets/scenery/overworld/mountain2.png'
+    },
 ]
 
 export const loadImage = ({ load }) => {

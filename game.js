@@ -57,11 +57,12 @@ function create() {
         .setGravityY(300)
         .setSize(16, 18)
         .setOffset(0, 0)
-    this.mario.setDepth(1)
+    this.mario.setDepth(10)
 
     this.goomba = this.physics.add.sprite(250, 180, 'goomba')
         .setOrigin(0, 1)
         .setVelocityX(-50)
+        .setDepth(5)
 
     this.misteryBlock = this.physics.add.sprite(250, 165, 'mistery-block')
         .setOrigin(0, 1)
@@ -76,10 +77,10 @@ function create() {
         if (misteryBlock.body.touching.down && mario.body.touching.up) {
             if (misteryBlock.isCollected) return
 
-            misteryBlock.setDepth(1)
+            misteryBlock.setDepth(5)
             misteryBlock.isCollected = true
 
-            const mushroom = this.collectibles.create(258, 165, 'mushroom')
+            const mushroom = this.collectibles.create(258, 165, 'mushroom').setDepth(4)
             mushroom.body.enable = false
             mushroom.alpha = 0
             this.tweens.add({

@@ -85,21 +85,4 @@ export function gameControls({ mario, keys }) {
             mario.anims.play(marioAnims.crouch, true)
         }
     }
-
-    // if ( 
-    //     isNotLeftKeyDown
-    //     && isNotDownKeyDown
-    //     && isNotRightKeyDown
-    //     && isNotShiftKeyDown
-    // ) {
-    //     mario.setVelocityX(0)
-    // }
-
-    // if (
-    //     isNotJumpPressed
-    //     && isNotUpKeyDown
-    // ) {
-    //     mario.setVelocityX(0)
-    // }
-    
 }
