@@ -35,6 +35,15 @@ const IMAGE_DB = [
         key: 'mountain2',
         path: 'assets/scenery/overworld/mountain2.png'
     },
+    {
+        key: 'pipe1',
+        path: 'assets/scenery/pipe1.png'
+    },
+    {
+        key: 'pipe2',
+        path: 'assets/scenery/pipe2.png'
+    },
+
 ]
 
 export const loadImage = ({ load }) => {

@@ -47,9 +47,6 @@ function create() {
     loadMap(this)
     createAnimations(this)
 
-    // this.add.image(0, 0, 'cloud1')
-    //     .setOrigin(0, 0)
-    //     .setScale(0.15)
 
     this.mario = this.physics.add.sprite(50, 200, 'mario')
         .setOrigin(0, 0.4)
@@ -77,6 +74,7 @@ function create() {
         if (misteryBlock.body.touching.down && mario.body.touching.up) {
             if (misteryBlock.isCollected) return
 
+            playAudio('powerup-appears', this, { volume: 0.5 })
             misteryBlock.setDepth(5)
             misteryBlock.isCollected = true
 
@@ -114,7 +112,7 @@ function create() {
     this.collectibles = this.physics.add.group()
 
 
-
+    this.physics.add.collider(this.mario, this.pipe)
     this.physics.add.collider(this.mario, this.floor)
     this.physics.add.collider(this.goomba, this.floor)
     this.physics.add.collider(this.collectibles, this.floor)

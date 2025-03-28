@@ -1,3 +1,5 @@
+import { playAudio } from "./audio.js"
+
 const MARIO_ANIMATIONS = {
     grown: {
         idle: 'mario-grown-idle',
@@ -54,6 +56,7 @@ export function gameControls({ mario, keys }) {
     }
 
     if (isJumpPressed && isTouchingFloor) {
+        playAudio('jump', { sound: mario.scene.sound }, { volume: 0.1 })
         mario.setVelocityY(-200)
         mario.anims.play(marioAnims.jump, true)
     }

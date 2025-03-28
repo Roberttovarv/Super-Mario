@@ -10,7 +10,7 @@ export const loadClouds = (scene) => {
 
         if (i == 0) { i = Math.random(0.1, 0.9)}
 
-        scene.add.image(i * (50 + (getRamdomInt(100, 250))), 
+        scene.add.image(i * (50 + (getRamdomInt(150, 300))), 
         getRamdomInt(10, 50), 'cloud1')
         .setOrigin(0, 0)
         .setScale(0.15)

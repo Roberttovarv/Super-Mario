@@ -18,6 +18,14 @@ const AUDIO_DB = [
 {
     key: 'powerdown',
     path: 'assets/sound/effects/powerdown.mp3'
+},
+{
+    key: 'powerup-appears',
+    path: 'assets/sound/effects/powerup-appears.mp3'
+},
+{
+    key: 'jump',
+    path: 'assets/sound/effects/jump.mp3'
 }
 ]
 
