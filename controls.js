@@ -26,10 +26,9 @@ export function gameControls({ mario, keys }) {
     const isRightKeyDown = keys.right.isDown
     const isShiftKeyDown = keys.sprint.isDown
 
-    if (mario.isDead) return
-    if (mario.isBlocked) return
+    if (mario.isDead || mario.isBlocked) return
 
-    if (isLeftKeyDown) {
+    if (isLeftKeyDown && !isDownKeyDown) {
         if (!isTouchingFloor) {
             mario.setVelocityX(-120)
             mario.flipX = true
@@ -40,7 +39,7 @@ export function gameControls({ mario, keys }) {
         mario.setVelocityX(-120)
         mario.flipX = true
         moving = true
-    } else if (isRightKeyDown) {
+    } else if (isRightKeyDown && !isDownKeyDown) {
         if (!isTouchingFloor) {
             mario.setVelocityX(120)
             mario.flipX = false
@@ -51,9 +50,11 @@ export function gameControls({ mario, keys }) {
         isTouchingFloor && mario.anims.play(marioAnims.walk, true)
         mario.flipX = false
         moving = true
-    } else if (isTouchingFloor) {
+    } else {
+        if (isTouchingFloor) {
         mario.anims.play(marioAnims.idle, true)
-    }
+    } else { mario.setVelocityX(0) }
+}
 
     if (isJumpPressed && isTouchingFloor) {
         playAudio('jump', { sound: mario.scene.sound }, { volume: 0.1 })
@@ -69,7 +70,7 @@ export function gameControls({ mario, keys }) {
 
     }
 
-    if (isShiftKeyDown) {
+    if (isShiftKeyDown && !isDownKeyDown) {
         if (isLeftKeyDown) {
             mario.setVelocityX(-200)
             moving = true

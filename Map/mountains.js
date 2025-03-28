@@ -43,6 +43,7 @@ function createMountains() {
 };
 
 export const loadMountains = (scene) => {
+    mountains = []
     createMountains()
 
     for (let i = 0; i < 14; i += 2) {

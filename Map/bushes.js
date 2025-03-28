@@ -43,6 +43,7 @@ function createBushes() {
 }
 
 export const loadBushes = (scene) => {
+    bushes = []
     createBushes()
 
     for (let i = 0; i < 18; i += 2) {
