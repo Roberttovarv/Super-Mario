@@ -272,7 +272,7 @@ function addScore(score, origin, game) {
             fontFamily: 'SMF',
             fontSize: config.width / 25
         }
-    )
+    ).setDepth(7)
 
     game.tweens.add({
         targets: scoreText,

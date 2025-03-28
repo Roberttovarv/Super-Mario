@@ -28,18 +28,14 @@ function createMountains() {
 
     for (let i = 0; i < 10; i++) {
         let spacing, x
-        do {
-            spacing = getRandomInt(100, 250)
-            x = spacing + lastX
-        } while (isInRange(x, ranges))
+        spacing = getRandomInt(200, 300)
+        x = spacing + lastX
         lastX = x
         mountains.push(x)
 
         let spacing2, x2
-        do {
-            spacing2 = getRandomInt(100, 250)
-            x2 = spacing2 + lastX2
-        } while (isInRange(x2, ranges))
+        spacing2 = getRandomInt(200, 300)
+        x2 = spacing2 + lastX2
         lastX2 = x2
         mountains.push(x2)
     }
@@ -49,16 +45,20 @@ function createMountains() {
 export const loadMountains = (scene) => {
     createMountains()
 
-    for (let i = 0; i < mountains.length; i += 2) {
-        
+    for (let i = 0; i < 14; i += 2) {
+
+        if (!isInRange(mountains[i], ranges)) {
         scene.add.image(mountains[i], 192, 'mountain1')
             .setOrigin(0.5, 0)
             .setScale(.5)
             .setDepth(2);
+        }
 
+        if (!isInRange(mountains[i + 1], ranges)) {
         scene.add.image(mountains[i + 1], 175, 'mountain2')
             .setOrigin(0.5, 0)
             .setScale(.5)
             .setDepth(1);
+        }
     }
 }
